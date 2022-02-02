@@ -1,0 +1,11 @@
+{
+  "type": "record",
+  "name": "checkoutCreatedEvent",
+  "namespace": "com.rlag.ecommerce.checkout.event",
+  "fields": [
+    {
+      "name": "checkoutCode",
+      "type": ["string", "null"]
+    }
+  ]
+}
