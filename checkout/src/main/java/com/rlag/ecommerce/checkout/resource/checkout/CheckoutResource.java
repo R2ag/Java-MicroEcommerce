@@ -1,6 +1,8 @@
 package com.rlag.ecommerce.checkout.resource.checkout;
 
 
+import com.rlag.ecommerce.checkout.entity.CheckoutEntity;
+import com.rlag.ecommerce.checkout.repository.CheckoutRepository;
 import com.rlag.ecommerce.checkout.service.CheckoutService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,10 +17,12 @@ public class CheckoutResource {
     private final CheckoutService checkoutService;
 
     @PostMapping("/")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Void> create(@RequestBody CheckoutRequest checkoutRequest){
-        checkoutService.create(checkoutRequest);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<CheckoutResponse> create(@RequestBody CheckoutRequest checkoutRequest){
+        final CheckoutEntity checkoutEntity = checkoutService.create(checkoutRequest).orElseThrow();
+        final CheckoutResponse checkoutResponse = CheckoutResponse.builder()
+                .code(checkoutEntity.getCode())
+                .build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(checkoutResponse);
     }
 
 }
